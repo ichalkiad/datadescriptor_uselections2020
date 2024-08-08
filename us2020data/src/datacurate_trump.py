@@ -4,127 +4,36 @@ import pandas as pd
 from us2020data.src.utils import clean_speech_texts, textclean_votesmart,\
                                     textclean_miller, remove_dots, find_substring,\
                                     remove_candidates_dicts, remove_square_brackets, \
-                                    remove_round_brackets, remove_containing_speeches
+                                    remove_round_brackets, remove_trump, clean_miller, clean_votesmart, clean_cspan
 import pathlib
 import re
 
-def remove_containing_speeches(text):
-
-    if "The accord reached between the United States, Israel, and the United Arab Emirates (UAE) on August 13, 2020, is a courageous step toward a more stable, integrated, and prosperous Middle East. " in text\
-                or "Today, I am officially recognizing the President of the Venezuelan National Assembly, Juan Guaido, as the Interim President of Venezuela." in text\
-                or "The United States and Colombia are committed to taking steps to resolve the ongoing democratic and humanitarian crisis in Venezuela. " in text\
-                or "This year, the United States and Czech Republic mark the 30-year anniversary of the inspiring and world-changing events of the Velvet Revolution." in text\
-                or "The resignation yesterday of Bolivian President Evo Morales is a significant moment for democracy in the Western Hemisphere. " in text\
-                or "On November 14, 1979, by Executive Order 12170, the President declared a national emergency with respect to Iran" in text\
-                or "On November 22, 2015, by Executive Order 13712, the President declared a national emergency to deal with the unusual and extraordinary threat to the national security and foreign policy of the United States constituted by the situation in Burundi," in text\
-                or "We, the President of the United States and the Prime Minister of Bulgaria, reaffirm the strong friendship and alliance between our two countries. " in text\
-                or "On November 27, 2018, by Executive Order 13851, I declared a national emergency pursuant to the International Emergency Economic Powers Act (50 U.S.C. 1701-1706) to deal with the unusual and extraordinary threat to the national security and foreign policy of the United States constituted by the situation in Nicaragua. " in text\
-                or "Today, President Donald J. Trump and President Mario Abdo Benitez of Paraguay committed to deepening the partnership between their two countries." in text\
-                or "Today, President Donald J. Trump met with the President of the Republic of Ecuador, Lenï¿½n Moreno, signaling the historic turn in bilateral ties between our two countries. " in text\
-                or "On February 25, 2011, by Executive Order 13566, the President declared a national emergency pursuant to the International Emergency Economic Powers Act (50 U.S.C. 1701-1706) to deal with the unusual and extraordinary threat to the national security and foreign policy of the United States constituted by the actions of Colonel Muammar Qadhafi," in text\
-                or "On April 1, 2015, by Executive Order 13694, the President declared a national emergency pursuant to the International Emergency Economic Powers Act (50 U.S.C. 1701 et seq.) to deal with the unusual and extraordinary threat to the national security, foreign policy, and economy of the United States constituted by the increasing prevalence and severity of malicious cyber-enabled activities originating from, or directed by persons located, in whole or in substantial part, outside the United States. " in text\
-                or "On April 3, 2014, by Executive Order 13664, the President declared a national emergency pursuant to the International Emergency Economic Powers Act (50 U.S.C. 1701-1706) to deal with the unusual and extraordinary threat to the national security and foreign policy of the United States constituted by the situation in and in relation to South Sudan," in text\
-                or "On April 12, 2010, by Executive Order 13536, the President declared a national emergency pursuant to the International Emergency Economic Powers Act (50 U.S.C. 1701 et seq.) to deal with the unusual and extraordinary threat to the national security and foreign policy of the United States constituted by the deterioration of the security situation and the persistence of violence in Somalia, and acts of piracy and armed robbery at sea off the coast of Somalia," in text\
-                or "Today, President Donald J. Trump declared that a major disaster exists" in text\
-                or "On Friday, April 24, 2020, the President signed into law: H.R. 266, the 'Paycheck Protection Program and Health Care Enhancement Act,' which provides additional fiscal year " in text\
-                or "April 25, 2020, marks the 75th Anniversary of the historic meeting between American and Soviet troops, who shook hands on the damaged bridge over the Elbe River." in text\
-                or "A lot of people were betting against it, but they've learned not to bet against us, I suspect. (Laughter.) I know they've learned that in Mexico. The people of Mexico and the United States are joined together by shared values, shared faith, and shared future on this beautiful continent. " in text\
-                or "As a mark of respect for the memory and longstanding public service of Representative John Lewis, of Georgia, I hereby order, by the authority vested in me by the Constitution and the laws of the United States of America," in text\
-                or "Well, thank you very much. It's an honor to be with the governor of a fabulous state, Arizona. It's Doug Ducey, and we know him well. " in text\
-                or "The First Lady and I wish our Jewish brothers and sisters Shana Tova and hope the millions observing this sacred day in America and around the world have a blessed start to the High Holy Days." in text\
-                or "By the authority vested in me as President by the Constitution and the laws of the United States of America, including the Countering America's Adversaries Through Sanctions Act (Public Law 115-44), the International Emergency Economic Powers Act (50 U.S.C. 1701 et seq.) (IEEPA), the National Emergencies Act (50 U.S.C. 1601 et seq.), section 212(f) of the Immigration and Nationality Act of 1952 (8 U.S.C. 1182(f)), and section 301 of title 3, United States Code, I, DONALD J. TRUMP, President of the United States of America, find that: It remains the policy of the United States to counter Iran's malign influence in the Middle East, " in text\
-                or "I am deeply saddened by the passing of my dear friend, His Highness the Amir of Kuwait," in text\
-                or "Today, I have signed into law S. 209, the 'PROGRESS for Indian Tribes Act of 2019' (the 'Act'). This Act makes several amendments to enhance tribal self-governance under the Indian Self-Determination and Education Assistance Act of 1975 (ISDEAA) " in text\
-                or "By the authority vested in me as President by the Constitution and the laws of the United States of America, including the International Emergency Economic Powers Act" in text\
-                or "On November 27, 2018, by Executive Order 13851, I declared a national emergency pursuant to the International Emergency Economic Powers Act (50 U.S.C. 1701-1706) to deal with the unusual and extraordinary threat to the national security and foreign policy of the United States constituted by the situation in Nicaragua." in text\
-                or "Today, our Nation mourns the loss of a true pioneer. General Charles 'Chuck' Yeager served in the Army Air Corps and the United States Air Force for more than 30 years, piloting countless aerial victories in World War II and commanding Airmen during the wars in Korea and Vietnam." in text\
-                or "On December 20, 2017, by Executive Order 13818, the President declared a national emergency with respect to serious human rights abuse and corruption around the world and, pursuant to the International Emergency Economic Powers Act (50 U.S.C. 1701 et seq.), took related steps to deal with the unusual and extraordinary threat to the national security, foreign policy, and economy of the United States." in text\
-                or "By the authority vested in me as President by the Constitution and the laws of the United States of America, including the Federal Vacancies Reform Act " in text\
-                or "By the authority vested in me as President by the Constitution and the laws of the United States of America, and to improve transparency with respect to the consequences of violating certain regulations and to protect Americans from facing unwarranted criminal punishment for unintentional violations of regulations, it is hereby ordered as follows:" in text\
-                or "By the authority vested in me as President by the Constitution and the laws of the United States of America,I, DONALD J. TRUMP, President of the United States of America, find that additional actions are necessary to ensure the security of Unmanned Aircraft Systems (UAS) owned, operated, and controlled by the Federal Government;" in text\
-                or "By the authority vested in me as President of the United States by the Constitution and laws of the United States of America, including section 301 of title 3, United States Code, and sections 3301 and 7301 of title 5, United States Code, it is hereby ordered as follows: " in text\
-                or "On January 23, 1995, by Executive Order 12947, the President declared a national emergency pursuant to the International Emergency Economic Powers Act (50 U.S.C. 1701-1706) to deal with the unusual and extraordinary threat to the national security, foreign policy, and economy of the United States caused by grave acts of violence committed by foreign terrorists that disrupt the Middle East peace process." in text\
-                or "The two leaders discussed Ecuador's leadership role in advancing security, prosperity, and democracy in the Western Hemisphere." in text:
-        print(text)
-        return ""
-    else:
-        return text
-
-
-
-
-def clean_votesmart(directoryin, potus, directoryout, cleanerfunc, unicode_class="NFC", show=False, extra2remove=None):
+   
+if __name__ == "__main__":
     
-    pathlib.Path("{}/{}/".format(directoryin, potus)).mkdir(parents=True, exist_ok=True)
-    votesmart = pd.read_csv("{}/{}/rawtext_{}.tsv".format(directoryin, potus, potus), sep="\t")
-    print("Votesmart raw - {}".format(potus))            
-    print(len(votesmart))      
-    votesmart = clean_speech_texts(votesmart, cleanerfunc, unicode_class)
-    print(len(votesmart))
-    
-    if extra2remove is not None:
-        votesmart.RawText = votesmart.RawText.apply(extra2remove)       
-        votesmart = votesmart[votesmart.RawText != ""]
-        votesmart = votesmart.reset_index(drop=True)   
-    
+    drop_column = "SpeechID"
+    potus = "DonaldTrump"
 
-    print("Votesmart clean - {}".format(potus))            
-    print(len(votesmart))
-    votesmart.to_csv("{}{}/cleantext_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")
-    if show:
-        for i, row in votesmart.iterrows():            
-            print(i)
-            print(row["RawText"])
-            print("\n")
-            print("\n")
-            print("\n")
-            time.sleep(3)
-    
-    return votesmart
+    # Vote Smart
+    directoryin = "/home/ioannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data/votesmart/"
+    directoryout = "/home/ioannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data_clean/votesmart/"
+    drop_speechID = pd.read_csv("{}/DonaldTrump/drop_speech_id.tsv".format(directoryin), sep="\t")   
+    clean_votesmart(directoryin, directoryout, potus, textclean_votesmart, "NFC", True, drop_speechID, drop_column)
 
-
-def clean_miller(directoryin, potus, directoryout, cleanerfunc, unicode_class="NFC", show=False):
-        
-    miller = pd.read_csv("{}/{}/rawtext_{}.tsv".format(directoryin, potus, potus), sep="\t")
-    miller = clean_speech_texts(miller, cleanerfunc, unicode_class)
-    print("Miller raw - {}".format(potus))     
-    print(len(miller))
-    miller.to_csv("{}{}/cleantext_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")
-    if show:
-        for i, row in miller.iterrows():            
-            print(i)
-            print(row["RawText"])
-            print("\n")
-            print("\n")
-            print("\n")
-            time.sleep(3)
+    # The Miller Center
+    directoryin = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data/millercenter/"
+    directoryout = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data_clean/millercenter/"
+    clean_miller(directoryin, directoryout, potus, textclean_miller, unicode_class="NFC", show=True)
     
-    return miller
+    # C-SPAN
+    directoryin = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data/cspan/"
+    directoryout = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data_clean/cspan/"
 
-def clean_cspan(directoryin, directoryout, show=False):
-    
-    patternremovetrump = re.compile(r'(PRES. TRUMP:|Mr. Trump:|GUEST:|MR. TRUMP:|PRESIDENT TRUMP::|TRUMP:|PRESIDENT TRUMP:)', re.DOTALL)
-    def remove_trump(text) : return re.sub(patternremovetrump, '', text)    
-
-    droptitles = ["New Chair of Joint Chiefs of Staff General Milley Swearing-in Ceremony",
-                  "U.S.-China Trade Deal",
-                  "President and First Lady Celebrate Earth Day and Arbor Day",
-                  "Restaurant Executives Meeting at the White House",
-                  "President Trump Receives Update on Border Wall Construction",
-                  '"Latinos for Trump" Roundtable in Las Vegas',
-                  'President Trump Hosts "Latinos for Trump" Roundtable in Phoenix',
-                  'President Trump Hosts "Latinos for Trump" Roundtable in Miami',
-                  "President Trump Meeting with Industry Executives",
-                  "President Trump Holds Roundtable with Industry Executives",
-                  "President Trump Remarks on National Day of Prayer",
-                  "President Trump on COVID-19 and School Safety"]
-    
-    cspantrump = pd.read_csv("{}/DonaldTrump/rawtext_DonaldTrump.tsv".format(directoryin), sep="\t")
-    print(len(cspantrump))
-    cspantrump = cspantrump[~cspantrump["SpeechTitle"].isin(droptitles)]
-    cspantrump = cspantrump.reset_index(drop=True)
-    print(len(cspantrump))
-    cspantrump.to_csv("{}/DonaldTrump/rawtext_droptitles_DonaldTrump.tsv".format(directoryout), index=False, sep="\t")
+    drop_speechID = pd.read_csv("{}/DonaldTrump/drop_speech_id.tsv".format(directoryin), sep="\t")       
+    cspan = pd.read_csv("{}/DonaldTrump/rawtext_DonaldTrump.tsv".format(directoryin), sep="\t")
+    cspan = cspan[~cspan[drop_column].isin(drop_speechID)] 
+    cspan = cspan.reset_index(drop=True)
+    cspan.to_csv("{}/DonaldTrump/rawtext_droptitles_DonaldTrump.tsv".format(directoryout), index=False, sep="\t")   
 
     #####################################
     # At this point, some manual curation was needed before proceeding to the next cleaning steps,
@@ -132,10 +41,7 @@ def clean_cspan(directoryin, directoryout, show=False):
     # and the speakers segments.
     #####################################
 
-    # trump
-    # remove those of low transcript quality? e.g. l ow tr anscrip t quali ty
-    # check speeches from white house, south lawn etc: kept? probably audience was press, politicians, etc         
-    
+    # segments to remove from closed captioning transcription, e.g. audience shouting
     trump_remove = {"CSPANDT27420193": ["YELLING] LOCK HER UP! LOCK HER UP!", "USA! USA! USA! USA!", "SARAH! SARAH! SARAH! SARAH!-THANK YOU, MR. PRESIDENT, FOR LEADING OUR COUNTRY. [CHEERS]",
                                         "FOUR MORE YEARS! FOUR MORE YEARS! FOUR MORE YEARS! FOUR MORE YEARS!", "USA! USA! USA! USA! USA! USA!", "THE WALL! BUILD THE WALL! BUILD THE WALL! BUILD THE WALL! THAT WHILE -- BUILD THE WALL!"],
                     "CSPANDT8520195" : ["USA, USA."],
@@ -178,10 +84,7 @@ def clean_cspan(directoryin, directoryout, show=False):
                                           "AND I WOULD LIKE TO TAKE A SECOND TO PRAY FOR THIS MAN. OUR FATHER AND OUR GOD, WE PRAY FOR OUR PRESIDENT. PROTECT HIM AND HIS FAMILY, AND PROTECT OUR NATION. WE PRAY THIS IN JESUS' NAME, AMEN."],
                     "CSPANDT2112020108": ["FOUR MORE YEARS, FOUR MORE YEARS, FOUR MORE YEARS, FOUR MORE YEARS, FOUR MORE YEARS.", "USA, USA, USA, USA, USA, USA.", "WE LOVE YOU, WE LOVE YOU, WE LOVE YOU, WE LOVE YOU, WE LOVE YOU.",
                                           "[INDISCERNIBLE] (music) [INDISCERNIBLE] [INDISCERNIBLE] [INDISCERNIBLE] [INDISCERNIBLE] [INDISCERNIBLE] [INDISCERNIBLE] [INDISCERNIBLE] [INDISCERNIBLE] [INDISCERNIBLE] [INDISCERNIBLE] [INDISCERNIBLE]WE HAVE TO DO SEVERAL THINGS. [INDISCERNIBLE] THE CASES BEFORE [INDISCERNIBLE] ENVIRONMENTAL JUSTICE [INDISCERNIBLE] GOT A LOT OF WORK TO DO. [INDISCERNIBLE] WE CANNOT LET THIS COME WE CANNOT [INDISCERNIBLE] CIVIL WAR STRAIGHT THROUGH THE -- TO THE PANDEMIC. WE HAVE NEVER LET OUR DEMOCRACY [INDISCERNIBLE] RECORD OF PUBLIC HEALTH. [INDISCERNIBLE] HERE COMES THE TRAIN. [INDISCERNIBLE] ANYWAY, I'M VERY WILLING TO LET THE AMERICAN PUBLIC JUDGE MY PHYSICAL AND MENTAL BUSINESS. [INDISCERNIBLE] (music)"]}         
-         
-    # CSPANDT23202041 missing bit at the end, ~7mins, CSPANDT1812201927 missing bit at the end, ~ 20mins     
-    cspantrump = pd.read_csv("{}/DonaldTrump/rawtext_droptitles_DonaldTrump_edit1.tsv".format(directoryout), sep="\t")
-    
+    # (start, end) points of speaker's speech in the closed caption output
     speechbounds = [("THAT'S REALLY NICE. THANK YOU.", "GOD BLESS YOU, AND GOD BLESS AMERICA. THANK YOU VERY MUCH. THANK YOU."),
                     None,
                     ("THANK YOU. THANK YOU, EVERYBODY. THANK YOU. THANK YOU VERY MUCH, GRAND RAPIDS. IT IS GREAT TO BE BACK. RIGHT HERE IN AMERICA'S HEARTLAND.", "AND WE WILL MAKE AMERICA GREAT AGAIN. THANK YOU. THANK YOU VERY MUCH. THANK YOU, MICHIGAN."),                    
@@ -288,68 +191,12 @@ def clean_cspan(directoryin, directoryout, show=False):
                     ("THANK YOU. A VERY POPULAR FIRST LADY, I HAVE TO SAY. THANK YOU VERY MUCH AND THANK YOU, MELANIA.", "AND WE WILL MAKE AMERICA GREAT AGAIN. THANK YOU, GEORGIA. GET OUT AND VOTE. GET OUT AND VOTE."),
                     ("I WANT TO THANK YOU VERY MUCH. HELLO, GEORGIA. BY THE WAY, THERE IS NO WAY WE LOST GEORGIA.", "GO GET 'EM DAVID. GO GET 'EM KELLY. GO GET 'EM. TOMORROW."),
                     ("Media will not show the magnitude of this crowd. Even I When I turned on today, I looked on.", "And God bless America. Thank you all for being here. This is incredible. Thank you very much. Thank you.")] 
-    trumpdf = {"SpeechID": [],	"POTUS": [], "Date": [], "SpeechTitle": [],	"RawText": [],	"SpeechURL": [], "Summary": [], "Source": [], "Type": [], "SpeechSegment": []}
-    for i, row in cspantrump.iterrows():       
-        remainingstr = None
-        if speechbounds[i] is None:
-            print(i+2) # csv _edit1 row 
-            print(row.SpeechURL)                                            
-            continue
-        if row.RawText == row.SpeechID:
-            with open("{}DonaldTrump/specialcleanneeded/{}.txt".format(directoryin, row.SpeechID), "r") as f:
-                content = f.read()
-                row.RawText = content                
-        if row.RawText is None:
-            ipdb.set_trace()
-        s1, s2 = speechbounds[i]
-        remainingstr = find_substring(row.RawText, s1, s2)       
-        if s1 not in row.RawText or s2 not in row.RawText or remainingstr is None:
-            print(i+2) # csv _edit1 row 
-            print(row.SpeechURL)
-            print(row.RawText)
-            print(speechbounds[i])            
-            ipdb.set_trace()                
-        if remainingstr is not None:
-            row["SpeechSegment"] = remainingstr
-            trumpdf["SpeechID"].append(row["SpeechID"])
-            trumpdf["POTUS"].append(row["POTUS"])
-            trumpdf["Date"].append(row["Date"])
-            trumpdf["SpeechTitle"].append(row["SpeechTitle"])
-            trumpdf["RawText"].append(row["RawText"])
-            trumpdf["SpeechURL"].append(row["SpeechURL"])
-            trumpdf["Summary"].append(row["Summary"])
-            trumpdf["Source"].append(row["Source"])
-            trumpdf["Type"].append(row["Type"])
-            trumpdf["SpeechSegment"].append(row["SpeechSegment"])
-    trumpdf = pd.DataFrame.from_dict(trumpdf).sort_values(by=["Date"]).reset_index(drop=False)
-    trumpdf.to_csv("{}/DonaldTrump/rawtext_droptitles_DonaldTrump_edit2.tsv".format(directoryout), sep="\t", index=False)
-    trumpdf = remove_candidates_dicts(trumpdf, trump_remove)        
-    trumpdf.SpeechSegment = trumpdf.SpeechSegment.apply(remove_trump)
-    trumpdf.SpeechSegment = trumpdf.SpeechSegment.apply(remove_dots)
-    trumpdf.SpeechSegment = trumpdf.SpeechSegment.apply(remove_square_brackets)
-    trumpdf.SpeechSegment = trumpdf.SpeechSegment.apply(remove_round_brackets)    
-    if show:    
-        for i, row in trumpdf.iterrows():        
-            print(row.SpeechURL)
-            print(row.SpeechSegment)
-            print("\n")
-            print("\n")
-            print("\n")
-            time.sleep(3)
-    trumpdf.to_csv("{}/DonaldTrump/cleantext_DonaldTrump.csv".format(directoryout), sep="\t", index=False)
+    clean_cspan(directoryin, directoryout, potus, False, trump_remove, speechbounds)
 
 
-    
-if __name__ == "__main__":
-    
-    # drop: 'VSDT1612019316', 'VSDT2110202062', 'VSDT2442020167', 'VSDT812202037'
-    potus = "DonaldTrump"
 
-    directoryin = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data/votesmart/"
-    directoryout = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data_clean/votesmart/"
-    clean_votesmart(directoryin, potus, directoryout, textclean_votesmart, unicode_class="NFC", show=True, extra2remove=remove_containing_speeches)
-
-    directoryin = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data/millercenter/"
-    directoryout = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data_clean/millercenter/"
-    clean_miller(directoryin, potus, directoryout, textclean_miller, unicode_class="NFC", show=True)
+    # TO COMMENT ON/ARGUE ABOUT:
+    # remove those of low transcript quality? e.g. l ow tr anscrip t quali ty
+    # check speeches from white house, south lawn etc: kept? probably audience was press, politicians, etc         
+    # CSPANDT23202041 missing bit at the end, ~7mins, CSPANDT1812201927 missing bit at the end, ~ 20mins     
     

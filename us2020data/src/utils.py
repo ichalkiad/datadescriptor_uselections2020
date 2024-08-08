@@ -11,6 +11,7 @@ patternremtext = re.compile(r'.*?(PRESIDENT DUDA|MRS. TRUMP|INTERIM PRESIDENT GU
 # introduction of speaker at the beginning of the speech
 patternbegin = re.compile(r'^\s*?(THE VICE PRESIDENT|THE PRESIDENT|PRESIDENT TRUMP|VICE PRESIDENT PENCE|VICE PRESIDENT HARRIS|VICE PRESIDENT|PRESIDENT):', re.DOTALL)
 patternbeginharris = re.compile(r'^\s*.*?(U.S. Senator Kamala D. Harris (D-CA), a member of the Senate Judiciary Committee, on Monday released the following statement on her vote against the confirmation of Judge Amy Coney Barrett to be Associate Justice of the Supreme Court of the United States|A full transcript of Harris\' statement, as delivered: HARRIS|Full transcript of Harris\' remarks below|Full transcript of Harris\' remarks|HARRIS):', re.DOTALL)
+patternremovetrump = re.compile(r'(PRES. TRUMP:|Mr. Trump:|GUEST:|MR. TRUMP:|PRESIDENT TRUMP::|TRUMP:|PRESIDENT TRUMP:)', re.DOTALL)
 # end signatures
 patternend = re.compile(r'(\bEND\b(?=\s*\.|$)|FOR FURTHER INFORMATION MEDIA SHOULD CONTACT).*$', re.DOTALL)
 patternendwithtime = re.compile(r'\s*END\s*\b(?:[0-1]?[0-9]|2[0-3]):[0-5]\d\b\s*(A.M.|P.M.)\s*(?!,).*$', re.DOTALL)
@@ -48,6 +49,8 @@ def remove_hashprint4(text) : return text.replace("For further background on the
 def replace_ps(text) : return re.sub(r'\s*P.S.*YouTube.(?=\s|$)', '', text)
 def replace_ps2(text) : return re.sub(r'^\s*P.S. [^\n.]*[.!?](?=\s|$)', '', text)       
 def remove_dots(x) : return x.replace("…", "").replace("--", "")
+def remove_trump(text) : return re.sub(patternremovetrump, '', text)    
+
 
 def apply_unicode_normalisation(text, unicode_class):
 
@@ -84,7 +87,6 @@ def clean_char_repetitions(text) -> str:
     tmp_text = tmp_text.strip()
 
     return tmp_text
-
 
 def clean_speech_texts(data, cleaner, unicode_class):
     
@@ -130,8 +132,6 @@ def unicode_cleanup(text):
     text = "".join(remove_inadmissible(text))        
 
     return text
-
-
 
 def tidy_up_sentence(text):
                 
@@ -203,7 +203,6 @@ def segment2quotes(text):
 
         return filter_segs
 
-
 def find_substring(s, s1, s2):
     
     start_index = s.find(s1)
@@ -215,23 +214,23 @@ def find_substring(s, s1, s2):
     else:
         return None
 
-def remove_candidates_dicts(df, removedict):
+def remove_candidates_dicts(df, removedict, column):
     
     for k in removedict.keys():
         for item in removedict[k]:
             if isinstance(item, str):                
-                df.loc[df.SpeechID==k, "SpeechSegment"].values[0] = df.loc[df.SpeechID==k, "SpeechSegment"].values[0].replace(item, "")                    
+                df.loc[df.SpeechID==k, column].values[0] = df.loc[df.SpeechID==k, column].values[0].replace(item, "")                    
             else:                
                 start = item[0]
                 end = item[1]
-                remstr = find_substring(df.loc[df.SpeechID==k, "SpeechSegment"].values[0], start, end)
+                remstr = find_substring(df.loc[df.SpeechID==k, column].values[0], start, end)
                 if remstr is None:
                     print(k)
                     print(start)
                     print(end)
-                    print(df.loc[df.SpeechID==k, "SpeechSegment"].values[0])
+                    print(df.loc[df.SpeechID==k, column].values[0])
                     ipdb.set_trace()                
-                df.loc[df.SpeechID==k, "SpeechSegment"].values[0] = df.loc[df.SpeechID==k, "SpeechSegment"].values[0].replace(remstr, "")
+                df.loc[df.SpeechID==k, column].values[0] = df.loc[df.SpeechID==k, column].values[0].replace(remstr, "")
     
     return df
 
@@ -380,6 +379,7 @@ def textclean_votesmart(text, unicode_class="NFC"):
     txt3 = txt3.strip()
     
     if "Read Democratic presidential nominee Joe Biden's speech to the 2020 Democratic National Convention, as prepared for delivery: " in txt3:
+        print("read_excerpt needed after all?")
         txt3 = txt3.replace("Read Democratic presidential nominee Joe Biden's speech to the 2020 Democratic National Convention, as prepared for delivery: ", "")
 
     if "joined Senator" in txt3 and not ("said Harris" in txt3 or "said Senator Harris" in txt3 or "Senator Harris said" in txt3) and ("We " in txt3 or " we " in txt3)\
@@ -444,3 +444,24 @@ def textclean_miller(text, unicode_class="NFC"):
         txt3 = txt3.strip()
 
         return txt3
+
+
+def clean_miller(directoryin, directoryout, potus, cleanerfunc, unicode_class="NFC", show=False):
+        
+    miller = pd.read_csv("{}/{}/rawtext_{}.tsv".format(directoryin, potus, potus), sep="\t")    
+    print("Miller raw - {}".format(potus))     
+    print(len(miller))
+    miller = clean_speech_texts(miller, cleanerfunc, unicode_class)
+    print("Miller clean - {}".format(potus))     
+    print(len(miller))  
+    miller.to_csv("{}{}/cleantext_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")
+    if show:
+        for i, row in miller.iterrows():            
+            print(i)
+            print(row["RawText"])
+            print("\n")
+            print("\n")
+            print("\n")
+            time.sleep(3)
+    
+    return miller
