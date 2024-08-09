@@ -12,6 +12,7 @@ patternremtext = re.compile(r'.*?(PRESIDENT DUDA|MRS. TRUMP|INTERIM PRESIDENT GU
 patternbegin = re.compile(r'^\s*?(THE VICE PRESIDENT|THE PRESIDENT|PRESIDENT TRUMP|VICE PRESIDENT PENCE|VICE PRESIDENT HARRIS|VICE PRESIDENT|PRESIDENT):', re.DOTALL)
 patternbeginharris = re.compile(r'^\s*.*?(U.S. Senator Kamala D. Harris (D-CA), a member of the Senate Judiciary Committee, on Monday released the following statement on her vote against the confirmation of Judge Amy Coney Barrett to be Associate Justice of the Supreme Court of the United States|A full transcript of Harris\' statement, as delivered: HARRIS|Full transcript of Harris\' remarks below|Full transcript of Harris\' remarks|HARRIS):', re.DOTALL)
 patternremovetrump = re.compile(r'(PRES. TRUMP:|Mr. Trump:|GUEST:|MR. TRUMP:|PRESIDENT TRUMP::|TRUMP:|PRESIDENT TRUMP:)', re.DOTALL)
+patternremovepence = re.compile(r'(V.P. PENCE:|VICE PRES. PENCE:|PENCE:|VICE PRESIDENT PENCE:)', re.DOTALL)
 # end signatures
 patternend = re.compile(r'(\bEND\b(?=\s*\.|$)|FOR FURTHER INFORMATION MEDIA SHOULD CONTACT).*$', re.DOTALL)
 patternendwithtime = re.compile(r'\s*END\s*\b(?:[0-1]?[0-9]|2[0-3]):[0-5]\d\b\s*(A.M.|P.M.)\s*(?!,).*$', re.DOTALL)
@@ -50,7 +51,7 @@ def replace_ps(text) : return re.sub(r'\s*P.S.*YouTube.(?=\s|$)', '', text)
 def replace_ps2(text) : return re.sub(r'^\s*P.S. [^\n.]*[.!?](?=\s|$)', '', text)       
 def remove_dots(x) : return x.replace("…", "").replace("--", "")
 def remove_trump(text) : return re.sub(patternremovetrump, '', text)    
-
+def remove_pence(text) : return re.sub(patternremovepence, '', text)
 
 def apply_unicode_normalisation(text, unicode_class):
 

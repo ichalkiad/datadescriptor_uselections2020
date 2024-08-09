@@ -17,7 +17,8 @@ if __name__ == "__main__":
     # Vote Smart
     directoryin = "/home/ioannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data/votesmart/"
     directoryout = "/home/ioannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data_clean/votesmart/"
-    drop_speechID = pd.read_csv("{}/DonaldTrump/drop_speech_id.tsv".format(directoryin), sep="\t")   
+    drop_speechID = pd.read_csv("{}/{}/drop_speech_id.tsv".format(directoryin, potus), sep="\t")   
+    drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()
     clean_votesmart(directoryin, directoryout, potus, textclean_votesmart, "NFC", True, drop_speechID, drop_column)
 
     # The Miller Center
@@ -29,11 +30,12 @@ if __name__ == "__main__":
     directoryin = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data/cspan/"
     directoryout = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data_clean/cspan/"
 
-    drop_speechID = pd.read_csv("{}/DonaldTrump/drop_speech_id.tsv".format(directoryin), sep="\t")       
-    cspan = pd.read_csv("{}/DonaldTrump/rawtext_DonaldTrump.tsv".format(directoryin), sep="\t")
+    drop_speechID = pd.read_csv("{}/{}/drop_speech_id.tsv".format(directoryin, potus), sep="\t")       
+    cspan = pd.read_csv("{}/{}/rawtext_{}.tsv".format(directoryin, potus, potus), sep="\t")
+    drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()
     cspan = cspan[~cspan[drop_column].isin(drop_speechID)] 
     cspan = cspan.reset_index(drop=True)
-    cspan.to_csv("{}/DonaldTrump/rawtext_droptitles_DonaldTrump.tsv".format(directoryout), index=False, sep="\t")   
+    cspan.to_csv("{}/{}/rawtext_droptitles_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")   
 
     #####################################
     # At this point, some manual curation was needed before proceeding to the next cleaning steps,
@@ -199,4 +201,4 @@ if __name__ == "__main__":
     # remove those of low transcript quality? e.g. l ow tr anscrip t quali ty
     # check speeches from white house, south lawn etc: kept? probably audience was press, politicians, etc         
     # CSPANDT23202041 missing bit at the end, ~7mins, CSPANDT1812201927 missing bit at the end, ~ 20mins     
-    
+    # add parquet and jsonl saving
