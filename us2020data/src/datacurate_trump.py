@@ -13,29 +13,32 @@ if __name__ == "__main__":
     
     drop_column = "SpeechID"
     potus = "DonaldTrump"
+    toplevel = pathlib.Path.cwd()
 
     # Vote Smart
-    directoryin = "/home/ioannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data/votesmart/"
-    directoryout = "/home/ioannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data_clean/votesmart/"
+    directoryin = "{}/us2020data/data/votesmart/".format(toplevel)
+    directoryout = "{}/us2020data/data_clean/votesmart/".format(toplevel)
+    pathlib.Path("{}/{}".format(directoryout, potus)).mkdir(parents=True, exist_ok=True)               
     drop_speechID = pd.read_csv("{}/{}/drop_speech_id.tsv".format(directoryin, potus), sep="\t")   
     drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()
     clean_votesmart(directoryin, directoryout, potus, textclean_votesmart, "NFC", True, drop_speechID, drop_column)
 
     # The Miller Center
-    directoryin = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data/millercenter/"
-    directoryout = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data_clean/millercenter/"
+    directoryin = "{}/us2020data/data/millercenter/".format(toplevel)
+    directoryout = "{}/us2020data/data_clean/millercenter/".format(toplevel)
+    pathlib.Path("{}/{}".format(directoryout, potus)).mkdir(parents=True, exist_ok=True)         
     clean_miller(directoryin, directoryout, potus, textclean_miller, unicode_class="NFC", show=True)
     
     # C-SPAN
-    directoryin = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data/cspan/"
-    directoryout = "/home/yannis/Dropbox (Heriot-Watt University Team)/datadescriptor_uselections2020/us2020data/data_clean/cspan/"
-
-    drop_speechID = pd.read_csv("{}/{}/drop_speech_id.tsv".format(directoryin, potus), sep="\t")       
+    directoryin = "{}/us2020data/data/cspan/".format(toplevel)
+    directoryout = "{}/us2020data/data_clean/cspan/".format(toplevel)
+    pathlib.Path("{}/{}".format(directoryout, potus)).mkdir(parents=True, exist_ok=True)  
     cspan = pd.read_csv("{}/{}/rawtext_{}.tsv".format(directoryin, potus, potus), sep="\t")
+    drop_speechID = pd.read_csv("{}/{}/drop_speech_id.tsv".format(directoryin, potus), sep="\t")           
     drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()
     cspan = cspan[~cspan[drop_column].isin(drop_speechID)] 
-    cspan = cspan.reset_index(drop=True)
-    cspan.to_csv("{}/{}/rawtext_droptitles_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")   
+    cspan = cspan.reset_index(drop=True)         
+    cspan.to_csv("{}/{}/rawtext_droptitles_{}.tsv".format(directoryin, potus, potus), index=False, sep="\t")   
 
     #####################################
     # At this point, some manual curation was needed before proceeding to the next cleaning steps,
@@ -200,5 +203,5 @@ if __name__ == "__main__":
     # TO COMMENT ON/ARGUE ABOUT:
     # remove those of low transcript quality? e.g. l ow tr anscrip t quali ty
     # check speeches from white house, south lawn etc: kept? probably audience was press, politicians, etc         
-    # CSPANDT23202041 missing bit at the end, ~7mins, CSPANDT1812201927 missing bit at the end, ~ 20mins     
-    # add parquet and jsonl saving
+    # CSPANDT23202041 missing bit at the end, ~7mins, CSPANDT1812201927 missing bit at the end, ~ 20mins         
+    # discard speech if discussion elements are spotted or not addressed to the public/voters
