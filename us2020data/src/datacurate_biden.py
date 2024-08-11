@@ -159,7 +159,7 @@ if __name__ == "__main__":
                     ("GOOD EVENING, MY FELLOW AMERICANS.", "I THANK YOU ALL. MAY GOD BLESS YOU. MAY GOD PROTECT OUR TROOPS. GOOD NIGHT."),
                     ("HELLO. MY FELLOW AMERICANS.", "MAY GOD BLESS AMERICA AND MAY GOD PROTECT OUR TROOPS. THANK YOU."),
                     ("HELLO, HELLO, HELLO. IT'S GOOD TO BE BACK. IT'S GOOD TO BE BACK. LET'S HEAR IT FOR ALLY.", "BLESS YOU ALL AND MAY GOD PROTECT OUR TROOPS. THANK YOU.")] 
-    clean_cspan(directoryin, directoryout, potus, False, biden_remove, speechbounds)
+    clean_cspan(directoryin, directoryout, potus, "NFC", False, biden_remove, speechbounds)
 
 
     # Medium
@@ -168,4 +168,4 @@ if __name__ == "__main__":
     pathlib.Path("{}/{}".format(directoryout, potus)).mkdir(parents=True, exist_ok=True)   
     drop_speechID = pd.read_csv("{}/{}/drop_speech_id.tsv".format(directoryin, potus), sep="\t")       
     drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()        
-    clean_medium(directoryin, directoryout, potus, textclean_medium, "NFC", False, drop_speechID, drop_column)  
+    clean_medium(directoryin, directoryout, potus, textclean_medium, "NFC", False, drop_speechID, drop_column)

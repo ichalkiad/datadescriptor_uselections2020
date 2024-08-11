@@ -380,9 +380,10 @@ def textclean_votesmart(text, unicode_class="NFC"):
 
     #         return ""
     
-    text = remove_alltext(text)
-    if text == "":
-        return text
+    # text = remove_alltext(text)
+    # if text == "":
+    #     return text
+
     # body
     text = remove_qsession(text)
     text = remove_interruptionsession(text)
@@ -398,11 +399,14 @@ def textclean_votesmart(text, unicode_class="NFC"):
         text = text.replace("For a section-by-section summary, click here.", text)
     if "For the full text of the legislation, click here." in text:
         text = text.replace("For the full text of the legislation, click here.", text)
+    if "Donald Trump: (00:00)" in text:
+        text = text.replace("Donald Trump: (00:00)", "")
 
     text = replace_proclamation(text)  
-    # normally there should be no occurrence of the following from here on
-    if len(re.findall(r'(THE VICE PRESIDENT|THE PRESIDENT):', text)) > 0:            
-        return ""
+    # # normally there should be no occurrence of the following from here on
+    # if len(re.findall(r'(THE VICE PRESIDENT|THE PRESIDENT):', text)) > 0:            
+    #     return ""
+    
     # start                   
     text = replace_transcript_init(text)
     text = replace_contentwarning_init(text)
@@ -412,7 +416,7 @@ def textclean_votesmart(text, unicode_class="NFC"):
     text = remove_url(text)        
 
     #############################################################   CHECK IF NEEDED
-    text = replace_senator(text) # for Harris speeches!
+    # text = replace_senator(text) # for Harris speeches!
 
     # end
     text = remove_square_brackets(text)
@@ -435,7 +439,7 @@ def textclean_votesmart(text, unicode_class="NFC"):
         txt3 = txt3.replace("Read Democratic presidential nominee Joe Biden's speech to the 2020 Democratic National Convention, as prepared for delivery: ", "")
 
     # if "joined Senator" in txt3 and not ("said Harris" in txt3 or "said Senator Harris" in txt3 or "Senator Harris said" in txt3) and ("We " in txt3 or " we " in txt3)\
-    #         or "letter" in txt3 and ("sent a letter to" in txt3 or "wrote a letter" in txt3 or "Dear Mr. President:" in txt3\
+    #         or ("sent a letter to" in txt3 or "wrote a letter" in txt3 or "Dear Mr. President:" in txt3\
     #                                             or "in a letter to" in txt3 or "wrote the lawmakers" in txt3 or "the senators wrote" in txt3)\
     #                                                 or "The legislation will also bolster the United States Digital Service" in txt3\
     #                                                     or "Harris on Thursday reintroduced the Deterring Espionage by Foreign Entities through National Defense Act, legislation to expand the legal tools" in txt3\
@@ -509,9 +513,14 @@ def clean_miller(directoryin, directoryout, potus, cleanerfunc, unicode_class="N
     miller = miller.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)
 
     test = pd.read_csv("/home/ioannis/Dropbox (Heriot-Watt University Team)/PoliticalScienceSpeeches/speechdata_TrumpBiden_allpresidentsspeeches/{}/transcriptdata_cleandata.csv".format(potus), sep=",")
+    test.Date = test.Date.apply(pd.Timestamp)
+    test = test[(test["Date"]>=pd.Timestamp("2019-01-01")) & (test["Date"]<=pd.Timestamp("2021-01-31"))].reset_index(drop=True)
     test = test.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)
-    print(test.SpeechSegment == miller.CleanText)    
-    assert sum(test.SpeechSegment == miller.CleanText)==len(test)
+    # test = test.drop_duplicates(subset="RawText")
+    # test = test.drop(columns=["index","Unnamed: 0"])
+    # test = test.reset_index(drop=True)
+    print(test.RawText == miller.CleanText)    
+    assert sum(test.RawText == miller.CleanText)==len(test)
     return 0
 
     miller.to_csv("{}{}/cleantext_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")
@@ -542,14 +551,7 @@ def clean_votesmart(directoryin, directoryout, potus, cleanerfunc, unicode_class
     votesmart = clean_speech_texts(votesmart, cleanerfunc, unicode_class)       
     print("Votesmart clean - {}".format(potus))            
     print(len(votesmart))
-
-    ############################## verify if it's needed for all, not just Harris
-    votesmart = votesmart.drop_duplicates(subset="CleanText")
-    votesmart = votesmart.reset_index(drop=True)
-    print("duplits")
-    print(len(votesmart))
-    ##############################
-
+    
     if potus == "KamalaHarris":
         votesmart.CleanText = votesmart.CleanText.apply(replace_allup2harris)
         votesmart.CleanText = votesmart.CleanText.apply(extract_sentences_between_single_quotes)
@@ -640,7 +642,8 @@ def clean_cspan(directoryin, directoryout, potus, unicode_class="NFC", show=Fals
 
     test = pd.read_csv("/home/ioannis/Dropbox (Heriot-Watt University Team)/PoliticalScienceSpeeches/speechdata_2020elections_cspan/{}/transcriptdata_cleandata.csv".format(potus), sep="\t")
     test = test.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)
-    ipdb.set_trace()
+    # test = test.drop_duplicates(subset="SpeechSegment")
+    test = test.reset_index(drop=True)
     print(test.SpeechSegment == cspandf.CleanText)    
     assert sum(test.SpeechSegment == cspandf.CleanText)==len(test)
     return 0
@@ -685,6 +688,8 @@ def clean_medium(directoryin, directoryout, potus, cleanerfunc, unicode_class="N
     else:
         test = pd.read_csv("/home/ioannis/Dropbox (Heriot-Watt University Team)/PoliticalScienceSpeeches/transcriptdatafull_bidenmedium_cleandata.csv".format(potus), sep=",")
     test = test.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)
+    # test = test.drop_duplicates(subset="RawText")
+    # test = test.reset_index(drop=True)
     print(test.RawText == medium.CleanText)    
     assert sum(test.RawText == medium.CleanText)==len(test)
     return 0
