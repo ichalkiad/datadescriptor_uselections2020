@@ -17,7 +17,7 @@ if __name__ == "__main__":
     pathlib.Path("{}/{}/".format(directoryout, potus)).mkdir(parents=True, exist_ok=True)    
     drop_speechID = pd.read_csv("{}/{}/drop_speech_id.tsv".format(directoryin, potus), sep="\t")   
     drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()
-    clean_votesmart(directoryin, directoryout, potus, textclean_votesmart, "NFC", False, drop_speechID, drop_column)
+    clean_votesmart(directoryin, directoryout, potus, textclean_votesmart, "NFC", True, drop_speechID, drop_column)
     
     # The Miller Center
     directoryin = "{}/us2020data/data/millercenter/".format(toplevel)
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     pathlib.Path("{}/{}".format(directoryout, potus)).mkdir(parents=True, exist_ok=True)   
     cspan = pd.read_csv("{}/{}/rawtext_{}.tsv".format(directoryin, potus, potus), sep="\t")            
     drop_speechID = pd.read_csv("{}/{}/drop_speech_id.tsv".format(directoryin, potus), sep="\t")       
-    drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()
+    drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()    
     cspan = cspan[~cspan[drop_column].isin(drop_speechID)] 
     cspan = cspan.reset_index(drop=True)  
     cspan.to_csv("{}/{}/rawtext_droptitles_{}.tsv".format(directoryin, potus, potus), index=False, sep="\t")   
@@ -159,7 +159,7 @@ if __name__ == "__main__":
                     ("GOOD EVENING, MY FELLOW AMERICANS.", "I THANK YOU ALL. MAY GOD BLESS YOU. MAY GOD PROTECT OUR TROOPS. GOOD NIGHT."),
                     ("HELLO. MY FELLOW AMERICANS.", "MAY GOD BLESS AMERICA AND MAY GOD PROTECT OUR TROOPS. THANK YOU."),
                     ("HELLO, HELLO, HELLO. IT'S GOOD TO BE BACK. IT'S GOOD TO BE BACK. LET'S HEAR IT FOR ALLY.", "BLESS YOU ALL AND MAY GOD PROTECT OUR TROOPS. THANK YOU.")] 
-    clean_cspan(directoryin, directoryout, potus, "NFC", False, biden_remove, speechbounds)
+    clean_cspan(directoryin, directoryout, potus, "NFC", True, biden_remove, speechbounds)
 
 
     # Medium
@@ -167,5 +167,5 @@ if __name__ == "__main__":
     directoryout = "{}/us2020data/data_clean/medium/".format(toplevel)
     pathlib.Path("{}/{}".format(directoryout, potus)).mkdir(parents=True, exist_ok=True)   
     drop_speechID = pd.read_csv("{}/{}/drop_speech_id.tsv".format(directoryin, potus), sep="\t")       
-    drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()        
-    clean_medium(directoryin, directoryout, potus, textclean_medium, "NFC", False, drop_speechID, drop_column)
+    drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()            
+    clean_medium(directoryin, directoryout, potus, textclean_medium, "NFC", True, drop_speechID, drop_column)

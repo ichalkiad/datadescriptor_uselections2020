@@ -8,10 +8,6 @@ from us2020data.src.utils import clean_speech_texts, textclean_votesmart,\
 import pathlib
 import re
 
-
-CSPAN: ADD THE PREPROCESSING
-VOTESMART: CHECK WHICH PRESS BRIEFINGS HAVE REMAINED IN THE CLEAN DATA AND CONSIDER REMOVING ALTOGETHER
-# UPDATE SCRAPING WITH FIXED SPEECHID FOR MEDIUM (KH) AND MILLER CENTER
    
 if __name__ == "__main__":
     
@@ -20,12 +16,12 @@ if __name__ == "__main__":
     toplevel = pathlib.Path.cwd()
 
     # Vote Smart
-    # directoryin = "{}/us2020data/data/votesmart/".format(toplevel)
-    # directoryout = "{}/us2020data/data_clean/votesmart/".format(toplevel)
-    # pathlib.Path("{}/{}".format(directoryout, potus)).mkdir(parents=True, exist_ok=True)               
-    # drop_speechID = pd.read_csv("{}/{}/drop_speech_id.tsv".format(directoryin, potus), sep="\t")   
-    # drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()    
-    # clean_votesmart(directoryin, directoryout, potus, textclean_votesmart, "NFC", True, drop_speechID, drop_column)
+    directoryin = "{}/us2020data/data/votesmart/".format(toplevel)
+    directoryout = "{}/us2020data/data_clean/votesmart/".format(toplevel)
+    pathlib.Path("{}/{}".format(directoryout, potus)).mkdir(parents=True, exist_ok=True)               
+    drop_speechID = pd.read_csv("{}/{}/drop_speech_id.tsv".format(directoryin, potus), sep="\t")   
+    drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()    
+    clean_votesmart(directoryin, directoryout, potus, textclean_votesmart, "NFC", True, drop_speechID, drop_column)
 
     # The Miller Center
     directoryin = "{}/us2020data/data/millercenter/".format(toplevel)
@@ -200,7 +196,7 @@ if __name__ == "__main__":
                     ("THANK YOU. A VERY POPULAR FIRST LADY, I HAVE TO SAY. THANK YOU VERY MUCH AND THANK YOU, MELANIA.", "AND WE WILL MAKE AMERICA GREAT AGAIN. THANK YOU, GEORGIA. GET OUT AND VOTE. GET OUT AND VOTE."),
                     ("I WANT TO THANK YOU VERY MUCH. HELLO, GEORGIA. BY THE WAY, THERE IS NO WAY WE LOST GEORGIA.", "GO GET 'EM DAVID. GO GET 'EM KELLY. GO GET 'EM. TOMORROW."),
                     ("Media will not show the magnitude of this crowd. Even I When I turned on today, I looked on.", "And God bless America. Thank you all for being here. This is incredible. Thank you very much. Thank you.")] 
-    clean_cspan(directoryin, directoryout, potus, "NFC", False, trump_remove, speechbounds)
+    clean_cspan(directoryin, directoryout, potus, "NFC", True, trump_remove, speechbounds)
 
 
 
