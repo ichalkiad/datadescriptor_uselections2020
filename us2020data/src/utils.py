@@ -397,9 +397,9 @@ def clean_miller(directoryin, directoryout, potus, cleanerfunc, unicode_class="N
     print("Miller clean - {}".format(potus))     
     print(len(miller))  
     miller = miller.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)   
-    miller.to_csv("{}{}/cleantext_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")
-    miller.to_parquet("{}/rawtext_{}.parquet".format(directoryout, potus), index=False, compression=None)
-    miller.to_json("{}/rawtext_{}.jsonl".format(directoryout, potus), orient='records', lines=True)        
+    miller.to_csv("{}/{}/cleantext_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")
+    miller.to_parquet("{}/{}/cleantext_{}.parquet".format(directoryout, potus, potus), index=False, compression=None)
+    miller.to_json("{}/{}/cleantext_{}.jsonl".format(directoryout, potus, potus), orient='records', lines=True)        
     if show:
         for i, row in miller.iterrows():            
             print(i)
@@ -432,9 +432,9 @@ def clean_votesmart(directoryin, directoryout, potus, cleanerfunc, unicode_class
         votesmart = votesmart.reset_index(drop=True)    
 
     votesmart = votesmart.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)
-    votesmart.to_csv("{}{}/cleantext_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")
-    votesmart.to_parquet("{}/rawtext_{}.parquet".format(directoryout, potus), index=False, compression=None)
-    votesmart.to_json("{}/rawtext_{}.jsonl".format(directoryout, potus), orient='records', lines=True)
+    votesmart.to_csv("{}/{}/cleantext_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")
+    votesmart.to_parquet("{}/{}/cleantext_{}.parquet".format(directoryout, potus, potus), index=False, compression=None)
+    votesmart.to_json("{}/{}/cleantext_{}.jsonl".format(directoryout, potus, potus), orient='records', lines=True)
     if show:
         for i, row in votesmart.iterrows():            
             print(i)
@@ -512,8 +512,8 @@ def clean_cspan(directoryin, directoryout, potus, unicode_class="NFC", show=Fals
     cspandf = cspandf.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)
 
     cspandf.to_csv("{}/{}/cleantext_{}.tsv".format(directoryout, potus, potus), sep="\t", index=False)
-    cspan.to_parquet("{}/rawtext_{}.parquet".format(directoryout, potus), index=False, compression=None)
-    cspan.to_json("{}/rawtext_{}.jsonl".format(directoryout, potus), orient='records', lines=True)
+    cspan.to_parquet("{}/{}/cleantext_{}.parquet".format(directoryout, potus, potus), index=False, compression=None)
+    cspan.to_json("{}/{}/cleantext_{}.jsonl".format(directoryout, potus, potus), orient='records', lines=True)
     if show:    
         for i, row in cspandf.iterrows():        
             print(i)
@@ -536,9 +536,9 @@ def clean_medium(directoryin, directoryout, potus, cleanerfunc, unicode_class="N
     print("Medium clean - {}".format(potus))
     print(len(medium)) 
     medium = medium.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)
-    medium.to_csv("{}/cleantext_{}.csv".format(directoryout, potus), index=False)
-    medium.to_parquet("{}/rawtext_{}.parquet".format(directoryout, potus), index=False, compression=None)
-    medium.to_json("{}/rawtext_{}.jsonl".format(directoryout, potus), orient='records', lines=True) 
+    medium.to_csv("{}/{}/cleantext_{}.csv".format(directoryout, potus, potus), index=False)
+    medium.to_parquet("{}/{}/cleantext_{}.parquet".format(directoryout, potus, potus), index=False, compression=None)
+    medium.to_json("{}/{}/cleantext_{}.jsonl".format(directoryout, potus, potus), orient='records', lines=True) 
     if show:
         for i, row in medium.iterrows():
             print(i)
