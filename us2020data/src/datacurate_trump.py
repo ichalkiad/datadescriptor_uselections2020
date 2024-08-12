@@ -197,11 +197,3 @@ if __name__ == "__main__":
                     ("I WANT TO THANK YOU VERY MUCH. HELLO, GEORGIA. BY THE WAY, THERE IS NO WAY WE LOST GEORGIA.", "GO GET 'EM DAVID. GO GET 'EM KELLY. GO GET 'EM. TOMORROW."),
                     ("Media will not show the magnitude of this crowd. Even I When I turned on today, I looked on.", "And God bless America. Thank you all for being here. This is incredible. Thank you very much. Thank you.")] 
     clean_cspan(directoryin, directoryout, potus, "NFC", True, trump_remove, speechbounds)
-
-
-
-    # TO COMMENT ON/ARGUE ABOUT:
-    # remove those of low transcript quality? e.g. l ow tr anscrip t quali ty
-    # check speeches from white house, south lawn etc: kept? probably audience was press, politicians, etc         
-    # CSPANDT23202041 missing bit at the end, ~7mins, CSPANDT1812201927 missing bit at the end, ~ 20mins         
-    # discard speech if discussion elements are spotted or not addressed to the public/voters

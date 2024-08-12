@@ -137,8 +137,7 @@ def get_president_speech(url, chrome_options, potusspeech_cnt=0, speech_id_init=
     transcript = replace_allup2harrisannounce(transcript)
     transcript = replace_dashes(transcript)
     transcript = replace_dashes2(transcript)
-    transcript = replace_dashes3(transcript)
-    # transcript = replace_escapeapostr(transcript)
+    transcript = replace_dashes3(transcript)    
     transcript = replace_spaces(transcript)
     transcript = transcript.strip()
     if transcript[-6:] == "Source":
@@ -179,7 +178,7 @@ if __name__ == "__main__":
     DIR_out = "{}/votesmart/".format(cwd)
     Path(DIR_out).mkdir(parents=True, exist_ok=True)
 
-    potusnames = ["joe-biden-jr"] #, "donald-trump"] #["mike-pence", "kamala-harris"]
+    potusnames = ["joe-biden-jr", "donald-trump", "mike-pence", "kamala-harris"]
     speech_types = {"newsarticle": 8,
                     "statement": 6,
                     "speech": 1,                    
@@ -278,8 +277,9 @@ if __name__ == "__main__":
                 time.sleep(4)
         
         datasetout_df_potus = pd.DataFrame.from_dict(dataset_potus)    
+        print(datasetout_df_potus)        
         d_potus = datasetout_df_potus.sort_values(['Date'],ascending=True).groupby('POTUS')
         datasetout_df_potus = d_potus.head(len(datasetout_df_potus)).reset_index(drop=True) 
-        Path("{}/{}/".format(DIR_out, potus.replace(".", "").replace(" ", ""))).mkdir(parents=True, exist_ok=True)
+        Path("{}/{}/".format(DIR_out, potus.replace(" ", ""))).mkdir(parents=True, exist_ok=True)
         datasetout_df_potus.to_csv("{}/{}/rawtext_{}.tsv".format(DIR_out, 
-                            potus.replace(".", "").replace(" ", ""), potus.replace(".", "").replace(" ", "")), index=False, sep="\t")
+                            potus.replace(" ", ""), potus.replace(" ", "")), index=False, sep="\t")

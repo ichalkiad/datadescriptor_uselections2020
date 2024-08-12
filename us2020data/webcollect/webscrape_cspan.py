@@ -93,27 +93,6 @@ def get_president_speech(potus, url, chrome_options, potusspeech_cnt=0, speech_i
       
 
 
-def merge_speech_lists(DIR):
-    def remove_br(x): return x.replace("<br>", "").replace("</br>", "").replace("<br/>", "").strip() if not pd.isna(x) else x
-    potusnames = ["Donald Trump", "Joe Biden", "Mike Pence", "Kamala Harris"]
-        
-    for potus in potusnames:
-        datadir = "{}/{}".format(DIR, potus.replace(".", "").replace(" ", ""))        
-        csvs = [f.name for f in os.scandir(datadir) if ".csv" in f.name and "cspan_" not in f.name] 
-        data = None
-        for csv in csvs:
-            csvin = pd.read_csv("{}/{}".format(datadir, csv))
-            if data is None:
-                data = csvin
-            else:
-                data = pd.concat([data, csvin])
-        print(potus, len(data))               
-        data = data.drop_duplicates(subset=["id", "publicId", "title", "date", "link"]).sort_values(by="date").reset_index(drop=True)
-        data.description = data.description.apply(remove_br)
-        data.to_csv("{}/cspan_{}.csv".format(datadir, potus.replace(".", "").replace(" ", "")), index=False)    
-        print(potus, len(data))
-    
-
       
 if __name__ == "__main__":
 
@@ -121,8 +100,7 @@ if __name__ == "__main__":
     DIR_out = "{}/cspan/".format(cwd)
     Path(DIR_out).mkdir(parents=True, exist_ok=True)
     merge_url_csvs = False
-    if merge_url_csvs:    
-        merge_speech_lists(DIR_out)
+    
     
     print("Starting collecting speeches from: C-SPAN")
     chrome_options = Options()

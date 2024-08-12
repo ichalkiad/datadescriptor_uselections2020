@@ -11,7 +11,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 from pathlib import Path
 import sys
-from webscrape_kamalamedium import get_president_speech
+from us2020data.webcollect.webscrape_harrismedium import get_president_speech
 import pathlib
 
 MONTHS = {"Jan": "1", "Feb": "2", "Mar": "3", "Apr": "4", "May": "5", "Jun": "6", "Jul": "7",

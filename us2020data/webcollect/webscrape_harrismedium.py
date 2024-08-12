@@ -20,7 +20,7 @@ import pathlib
 MONTHS = {"Jan": "1", "Feb": "2", "Mar": "3", "Apr": "4", "May": "5", "Jun": "6", "Jul": "7",
           "Aug": "8", "Sep": "9", "Oct": "10", "Nov": "11", "Dec": "12"}
 
-def get_kamala_speech_list(url, chrome_options, keywords=[]):
+def get_harris_speech_list(url, chrome_options, keywords=[]):
 
     browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)    
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0', 'Connection': 'keep-alive',
@@ -196,7 +196,7 @@ if __name__ == "__main__":
     potusspeech_cnt = 0
     speech_id_init = "MEKH"
     
-    speeches_out = get_kamala_speech_list(url, chrome_options, keywords)
+    speeches_out = get_harris_speech_list(url, chrome_options, keywords)
     for i in speeches_out:
         if (i[1] < pd.Timestamp("2019-01-01")) or (i[1] > pd.Timestamp("2021-01-31")):
             continue

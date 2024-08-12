@@ -263,7 +263,6 @@ def extract_sentences_between_single_quotes(text):
     else:
         return text
 
-
 def textclean_medium(text, unicode_class="NFC", potus=None):
         
     text = replace_senator(text)
@@ -285,7 +284,6 @@ def textclean_medium(text, unicode_class="NFC", potus=None):
     txt3 = txt3.strip()
 
     return txt3
-
 
 def textclean_votesmart(text, unicode_class="NFC", potus=None):
 
@@ -346,7 +344,6 @@ def textclean_votesmart(text, unicode_class="NFC", potus=None):
 
     return txt3
 
-
 def textclean_miller(text, unicode_class="NFC", potus=None):
         
         # remove introductory president announcement
@@ -387,7 +384,6 @@ def textclean_miller(text, unicode_class="NFC", potus=None):
 
         return txt3
 
-
 def clean_miller(directoryin, directoryout, potus, cleanerfunc, unicode_class="NFC", show=False):
             
     miller = pd.read_csv("{}/{}/rawtext_{}.tsv".format(directoryin, potus, potus), sep="\t")    
@@ -397,6 +393,10 @@ def clean_miller(directoryin, directoryout, potus, cleanerfunc, unicode_class="N
     print("Miller clean - {}".format(potus))     
     print(len(miller))  
     miller = miller.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)   
+    
+    if "index" in miller.columns:
+        miller = miller.drop(columns=["index"])
+    
     miller.to_csv("{}/{}/cleantext_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")
     miller.to_parquet("{}/{}/cleantext_{}.parquet".format(directoryout, potus, potus), index=False, compression=None)
     miller.to_json("{}/{}/cleantext_{}.jsonl".format(directoryout, potus, potus), orient='records', lines=True)        
@@ -411,7 +411,6 @@ def clean_miller(directoryin, directoryout, potus, cleanerfunc, unicode_class="N
             time.sleep(3)
     
     return miller
-
 
 def clean_votesmart(directoryin, directoryout, potus, cleanerfunc, unicode_class="NFC", show=False, droplist=None, dropcolumn=None):
     
@@ -430,8 +429,11 @@ def clean_votesmart(directoryin, directoryout, potus, cleanerfunc, unicode_class
         votesmart.CleanText = votesmart.CleanText.apply(extract_sentences_between_single_quotes)
         votesmart = votesmart[votesmart.CleanText != ""]
         votesmart = votesmart.reset_index(drop=True)    
-
     votesmart = votesmart.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)
+
+    if "index" in votesmart.columns:
+        votesmart = votesmart.drop(columns=["index"])
+
     votesmart.to_csv("{}/{}/cleantext_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")
     votesmart.to_parquet("{}/{}/cleantext_{}.parquet".format(directoryout, potus, potus), index=False, compression=None)
     votesmart.to_json("{}/{}/cleantext_{}.jsonl".format(directoryout, potus, potus), orient='records', lines=True)
@@ -490,6 +492,10 @@ def clean_cspan(directoryin, directoryout, potus, unicode_class="NFC", show=Fals
             cspandf["Type"].append(row["Type"])
             cspandf["CleanText"].append(row["SpeechSegment"])
     cspandf = pd.DataFrame.from_dict(cspandf).sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)
+
+    if "index" in cspandf.columns:
+        cspandf = cspandf.drop(columns=["index"])
+
     cspandf.to_csv("{}/{}/rawtext_droptitles_{}_edit2.tsv".format(directoryin, potus, potus), sep="\t", index=False)
     if dropsegments is not None:
         cspandf = remove_candidates_dicts(cspandf, dropsegments, "CleanText")     
@@ -510,6 +516,11 @@ def clean_cspan(directoryin, directoryout, potus, unicode_class="NFC", show=Fals
     cspandf.CleanText = cspandf.CleanText.apply(unicode_cleanup)        
     cspandf.CleanText = cspandf.CleanText.apply(clean_strip)        
     cspandf = cspandf.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)
+
+    if "index" in cspandf.columns:
+        cspandf = cspandf.drop(columns=["index"])
+    if "level_0" in cspandf.columns:
+        cspandf = cspandf.drop(columns=["level_0"])
 
     cspandf.to_csv("{}/{}/cleantext_{}.tsv".format(directoryout, potus, potus), sep="\t", index=False)
     cspan.to_parquet("{}/{}/cleantext_{}.parquet".format(directoryout, potus, potus), index=False, compression=None)
@@ -536,7 +547,11 @@ def clean_medium(directoryin, directoryout, potus, cleanerfunc, unicode_class="N
     print("Medium clean - {}".format(potus))
     print(len(medium)) 
     medium = medium.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)
-    medium.to_csv("{}/{}/cleantext_{}.csv".format(directoryout, potus, potus), index=False)
+    
+    if "index" in medium.columns:
+        medium = medium.drop(columns=["index"])
+    
+    medium.to_csv("{}/{}/cleantext_{}.tsv".format(directoryout, potus, potus), index=False, sep="\t")
     medium.to_parquet("{}/{}/cleantext_{}.parquet".format(directoryout, potus, potus), index=False, compression=None)
     medium.to_json("{}/{}/cleantext_{}.jsonl".format(directoryout, potus, potus), orient='records', lines=True) 
     if show:

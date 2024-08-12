@@ -38,8 +38,6 @@ if __name__ == "__main__":
     # and the speakers segments.
     #####################################
 
-    # csv no 22 dropped due to erroneous transcription
-
     pence_remove = {"CSPANMP91202075": ["USA. USA. USA. USA.", "FOUR MORE YEARS. FOR MORE YEARS. FOUR MORE YEARS. FOR MORE YEARS.", "BUILDS THAT WALL. A BUILD THAT WALL. BILLS OF THAT WALL."]}     
     speechbounds = [("Thank you, Acting Secretary Shanahan, Secretary Mark Esper, Secretary Wilson, distinguished members of Congress, members of the Joint Chiefs", "So now it is my high honor and distinct privilege to introduce your Commander-in-Chief, the 45th President of the United States of America, President Donald Trump."),
                     None,

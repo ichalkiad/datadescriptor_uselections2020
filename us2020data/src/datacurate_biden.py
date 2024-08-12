@@ -41,9 +41,6 @@ if __name__ == "__main__":
     # to identify which speeches were captioned well-enough, their starting and ending points
     # and the speakers segments.
     #####################################
-
-    # remove: TAKE ON THE OIL AND GAS LOBBYISTS, NOT TO BE TIED DOWN BY CAMPAIGNS OWNERS. - 22
-    # 25 : interrupted, conversational, baq quality transcription    
     
     biden_remove = {"CSPANJB33202058": ["LET HER STAY!, LET HER GO! LET HER GO! [CHANTING]"], "CSPANJB18102020116": [">> --"], "CSPANJB412021150": ["WE LOVE YOU."]}
     speechbounds = [("HEY, FOLKS. HOW ARE YOU? GOD, I LOVE YOU.", "I MEAN IT. DON'T GIVE UP! KEEP IT GOING! WHEN JOB SHOULD BE ENOUGH. THANK YOU."),
@@ -160,7 +157,6 @@ if __name__ == "__main__":
                     ("HELLO. MY FELLOW AMERICANS.", "MAY GOD BLESS AMERICA AND MAY GOD PROTECT OUR TROOPS. THANK YOU."),
                     ("HELLO, HELLO, HELLO. IT'S GOOD TO BE BACK. IT'S GOOD TO BE BACK. LET'S HEAR IT FOR ALLY.", "BLESS YOU ALL AND MAY GOD PROTECT OUR TROOPS. THANK YOU.")] 
     clean_cspan(directoryin, directoryout, potus, "NFC", True, biden_remove, speechbounds)
-
 
     # Medium
     directoryin = "{}/us2020data/data/medium/".format(toplevel)
