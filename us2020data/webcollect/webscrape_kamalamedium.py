@@ -223,7 +223,6 @@ if __name__ == "__main__":
 
     datasetout_df = pd.DataFrame.from_dict(dataset)
     print(datasetout_df)
-    print(len(datasetout_df))
     d = datasetout_df.sort_values(['Date'],ascending=True).groupby('POTUS')
     datasetout_df = d.head(len(datasetout_df)).reset_index(drop=True) 
     datasetout_df.to_csv("{}/rawtext_KamalaHarris.tsv".format(DIR_out), index=False, sep="\t")

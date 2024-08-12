@@ -73,7 +73,7 @@ def get_president_speech_list(url, potus, chrome_options, keywords=[]):
     return speeches_out
       
 
-def get_president_speech(potus, url, chrome_options, mp3directory, potusspeech_cnt=0, speech_id_init="xyz"):
+def get_president_speech(url, chrome_options, potusspeech_cnt=0, speech_id_init="xyz"):
 
     browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)  
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0', 'Connection': 'keep-alive',
@@ -186,9 +186,9 @@ if __name__ == "__main__":
         potusspeech_cnt = 0
         nameparts = potus.replace(".", "").split()
         if len(nameparts) > 2:
-            speech_id_init = "{}{}{}".format(nameparts[0][0], nameparts[1][0], nameparts[2][0])
+            speech_id_init = "MC{}{}{}".format(nameparts[0][0], nameparts[1][0], nameparts[2][0])
         else:
-            speech_id_init = "{}{}".format(nameparts[0][0], nameparts[1][0])
+            speech_id_init = "MC{}{}".format(nameparts[0][0], nameparts[1][0])
 
         speeches_out = get_president_speech_list(url, potusno[potus], chrome_options, keywords)
         for i in speeches_out:
@@ -205,9 +205,9 @@ if __name__ == "__main__":
             dataset_potus["SpeechURL"].append(speechurl)
             
             print(speechurl)           
-            datetimestamp, title, source, summary, transcript, speechID = get_president_speech(potus, speechurl, 
-                                                        chrome_options, mp3directory=mp3directory, 
-                                                        potusspeech_cnt=potusspeech_cnt, speech_id_init=speech_id_init)
+            datetimestamp, title, source, summary, transcript, speechID = get_president_speech(speechurl, 
+                                                        chrome_options, potusspeech_cnt=potusspeech_cnt, 
+                                                        speech_id_init=speech_id_init)
             potusspeech_cnt = potusspeech_cnt + 1
             print(speechurl)
             print(title)
@@ -224,6 +224,7 @@ if __name__ == "__main__":
             time.sleep(2)
 
         datasetout_df_potus = pd.DataFrame.from_dict(dataset_potus)    
+        print(datasetout_df_potus)
         d_potus = datasetout_df_potus.sort_values(['Date'],ascending=True).groupby('POTUS')
         datasetout_df_potus = d_potus.head(len(datasetout_df_potus)).reset_index(drop=True) 
         datasetout_df_potus.to_csv("{}/{}/rawtext_{}.tsv".format(DIR_out, 
