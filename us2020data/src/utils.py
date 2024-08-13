@@ -428,9 +428,10 @@ def clean_votesmart(directoryin, directoryout, potus, cleanerfunc, unicode_class
         votesmart.CleanText = votesmart.CleanText.apply(replace_allup2harris)
         votesmart.CleanText = votesmart.CleanText.apply(extract_sentences_between_single_quotes)
         votesmart = votesmart[votesmart.CleanText != ""]
-        votesmart = votesmart.reset_index(drop=True)    
+        votesmart = votesmart.reset_index(drop=True)            
+        votesmart = votesmart.drop_duplicates(subset=["SpeechTitle", "CleanText"]).reset_index(drop=False)        
     votesmart = votesmart.sort_values(by=["Date", "SpeechID"]).reset_index(drop=False)
-
+    
     if "index" in votesmart.columns:
         votesmart = votesmart.drop(columns=["index"])
 

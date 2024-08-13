@@ -19,6 +19,8 @@ if __name__ == "__main__":
     drop_speechID = drop_speechID.SpeechIDdrop.values.tolist()       
     clean_votesmart(directoryin, directoryout, potus, textclean_votesmart, "NFC", True, drop_speechID, drop_column)
 
+    import sys
+    sys.exit(0)
     # C-SPAN
     directoryin = "{}/us2020data/data/cspan/".format(toplevel)
     directoryout = "{}/us2020data/data_clean/cspan/".format(toplevel)       
