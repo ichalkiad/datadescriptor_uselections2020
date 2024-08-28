@@ -1,10 +1,16 @@
-import ipdb
+################################################################
+################################################################
+
+# Copyright (C) 2024 Ioannis Chalkiadakis - All Rights Reserved.
+# Subject to the MIT license.
+
+################################################################
+################################################################
+
 import pandas as pd
 from us2020data.src.utils import textclean_votesmart,\
                                     clean_votesmart, clean_cspan
 import pathlib
-
-
 
 
 if __name__ == "__main__":

@@ -1,12 +1,16 @@
-import time
-import ipdb
+################################################################
+################################################################
+
+# Copyright (C) 2024 Ioannis Chalkiadakis - All Rights Reserved.
+# Subject to the MIT license.
+
+################################################################
+################################################################
+
 import pandas as pd
-from us2020data.src.utils import clean_speech_texts, textclean_votesmart,\
-                                    textclean_miller, remove_dots, find_substring,\
-                                    remove_candidates_dicts, remove_square_brackets, \
-                                    remove_round_brackets, remove_trump, clean_miller, clean_votesmart, clean_cspan
+from us2020data.src.utils import textclean_votesmart, textclean_miller,\
+                                clean_miller, clean_votesmart, clean_cspan
 import pathlib
-import re
 
    
 if __name__ == "__main__":

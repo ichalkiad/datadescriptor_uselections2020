@@ -1,8 +1,16 @@
+################################################################
+################################################################
+
+# Copyright (C) 2024 Ioannis Chalkiadakis - All Rights Reserved.
+# Subject to the MIT license.
+
+################################################################
+################################################################
+
 import html
 import unicodedata
 import re
 import regex
-import ipdb
 from us2020data.src.quotes import OPENQUOTES, CLOSEQUOTES
 import string
 import time
@@ -234,8 +242,7 @@ def remove_candidates_dicts(df, removedict, column):
                     print(k)
                     print(start)
                     print(end)
-                    print(df.loc[df.SpeechID==k, column].values[0])
-                    ipdb.set_trace()                
+                    print(df.loc[df.SpeechID==k, column].values[0])                               
                 df.loc[df.SpeechID==k, column].values[0] = df.loc[df.SpeechID==k, column].values[0].replace(remstr, "")
     
     return df

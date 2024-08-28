@@ -1,4 +1,12 @@
-import ipdb
+################################################################
+################################################################
+
+# Copyright (C) 2024 Ioannis Chalkiadakis - All Rights Reserved.
+# Subject to the MIT license.
+
+################################################################
+################################################################
+
 import pandas as pd
 from us2020data.src.utils import textclean_votesmart, textclean_miller, \
                                     textclean_medium, clean_miller, \

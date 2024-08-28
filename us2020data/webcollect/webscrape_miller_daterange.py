@@ -1,3 +1,12 @@
+################################################################
+################################################################
+
+# Copyright (C) 2024 Ioannis Chalkiadakis - All Rights Reserved.
+# Subject to the MIT license.
+
+################################################################
+################################################################
+
 from __future__ import print_function
 import time
 from selenium import webdriver
@@ -5,7 +14,6 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
-import ipdb
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager

@@ -1,3 +1,12 @@
+################################################################
+################################################################
+
+# Copyright (C) 2024 Ioannis Chalkiadakis - All Rights Reserved.
+# Subject to the MIT license.
+
+################################################################
+################################################################
+
 import time
 from selenium import webdriver
 from bs4 import BeautifulSoup

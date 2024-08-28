@@ -1,7 +1,16 @@
+################################################################
+################################################################
+
+# Copyright (C) 2024 Ioannis Chalkiadakis - All Rights Reserved.
+# Subject to the MIT license.
+
+################################################################
+################################################################
+
 from nltk.corpus import stopwords
 import pandas as pd
 from collections import Counter
-from plotly import graph_objects as go, io as pio, express as px
+from plotly import io as pio
 from us2020data.stm.dictionary import Dictionary
 from sklearn.feature_extraction.text import _make_int_array
 from sklearn.utils import _IS_32BIT
@@ -13,8 +22,9 @@ def stopwords_politicalscience(lexica_in):
     # Gentzkow, M., Shapiro, J. and Taddy, M., 2016. Measuring polarization in high-dimensional data: Method and application to congressional speech (No. id: 11114).
     df = pd.read_fwf('{}stopwordpoliticalscience.txt'.format(lexica_in), header=None)
     stops = set(stopwords.words('english'))
-    stops = list(stops.union(set(flatten(df.values.tolist()))))
-    d = Dictionary(topic="StopwordsPoliticalScience", dictionary_elements=stops, workspace_in_dir="{}/".format(lexica_in))
+    stops = list(stops.union(set(flatten(df.values.tolist()))))    
+    d = Dictionary(topic="StopwordsPoliticalScience", dictionary_elements=stops, workspace_in_dir="{}/".format(lexica_in), 
+                   workspace_out_dir="{}/".format(lexica_in))
     dd = d.tokenlist()
     
     return dd
