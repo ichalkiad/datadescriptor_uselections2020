@@ -1,6 +1,7 @@
 # A text dataset of campaign speeches of the main tickets in the 2020 US presidential election
 
-[![DOI](https://10.0.23.196/m9.figshare.26862064)
+[![DOI](https://upload.wikimedia.org/wikipedia/commons/d/df/Figshare_logo.svg)](https://10.0.23.196/m9.figshare.26862064)
+
 [![Python 3.8+](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
 
 Unstructured text data have gained popularity in political science, owing to advancements in rigorous *text-as-data* methods that allow extracting insights into election outcomes, candidates' appeal to voters, ideologies and campaign strategies. Existing datasets on US presidential elections campaign speeches are limited in size or source variation, and often contain speeches of different types (debates, rallies, official presidential events, e.g. inauguration, press interviews), thus lacking consistency in their rhetorical content. The introduced dataset comprises the campaign speeches of the Democratic and Republican tickets for the 2020 US presidential election ($1,056$ in total), covering the period between January 2019 and January 2021. Importantly, the dataset dictates specific criteria for the speech rhetorical structure ensuring consistency, critical for quantitative analysis. It has been carefully curated, yet only to the necessary extent as to still be able to inform studies that require semantic or grammatical/syntactical structure. The provided corpus is also hosted on [Figshare](https://10.0.23.196/m9.figshare.26862064) and it aims to enhance timely studies on US presidential elections with high-quality text data.
