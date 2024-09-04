@@ -71,13 +71,13 @@ The code for the Structural Topic Model case study is provided in the folder *st
 
 Text:
 
-Chalkiadakis, I., d’ Auriac Louise Anglés, Peters, G. W. & Frau-Meigs, D. A text dataset of campaign speeches of the main tickets in the 2020 us presidential election. Figshare https://10.6084/m9.figshare.26862064 (2024).
+Chalkiadakis, I., d’ Auriac Louise Anglès, Peters, G. W. & Frau-Meigs, D. A text dataset of campaign speeches of the main tickets in the 2020 us presidential election. Figshare https://10.6084/m9.figshare.26862064 (2024).
 
 
 Bibtex:
 
 @misc{chalkiadakisdauriac2024,
-  author = {Chalkiadakis, I. and d' Auriac Louise Angl\'es, and Peters, Gareth W., and Frau-Meigs, Divina},
+  author = {Chalkiadakis, I. and d' Auriac Louise Angl\`es, and Peters, Gareth W., and Frau-Meigs, Divina},
   year = {2024},
   title = {A text dataset of campaign speeches of the main tickets in the 2020 US presidential election},
   howpublished = {\emph{figshare} \url{https://10.6084/m9.figshare.26862064}}
