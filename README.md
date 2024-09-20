@@ -1,6 +1,6 @@
 # A text dataset of campaign speeches of the main tickets in the 2020 US presidential election
 
-[![DOI](https://upload.wikimedia.org/wikipedia/commons/d/df/Figshare_logo.svg)](https://doi.org/10.0.23.196/m9.figshare.26862064)
+[![DOI](https://upload.wikimedia.org/wikipedia/commons/d/df/Figshare_logo.svg)](https://doi.org/10.6084/m9.figshare.26862064)
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
 
