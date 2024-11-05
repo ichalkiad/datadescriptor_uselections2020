@@ -1,6 +1,6 @@
 # A text dataset of campaign speeches of the main tickets in the 2020 US presidential election
 
-[![DOI](https://upload.wikimedia.org/wikipedia/commons/d/df/Figshare_logo.svg)](https://10.0.23.196/m9.figshare.26862064)
+[![DOI](https://upload.wikimedia.org/wikipedia/commons/d/df/Figshare_logo.svg)](https://doi.org/10.6084/m9.figshare.26862064.v1)
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
 
@@ -19,7 +19,7 @@ The dataset contains speeches delivered by the Republican (Donald Trump, Mike Pe
 The modalities and style of speeches delivered during a campaign vary and may comprise oral speeches (e.g. debates or Convention speeches), and written statements (e.g. news articles, press releases). To construct a dataset that is coherent in terms of rhetorical structure in the speeches, irrespective of the delivery medium, certain criteria were specified for a speech to be included in the dataset. In particular:
 
     1. the speeches had to be either oral or written, yet partially or fully scripted; 
-    2. the speeches should be destined to an audience of voters, i.e citizens who are not politicians or journalists; 
+    2. the speeches should be destined for an audience of voters, i.e citizens who are not politicians or journalists; 
     3. the speeches had to be delivered and predominantly led by the speaker, rather than a co-host or journalist.
 
 Both the raw and the curated data are provided in three formats to facilitate different processing pipelines:
@@ -31,7 +31,7 @@ Both the raw and the curated data are provided in three formats to facilitate di
 
 ### Repository contents
 
-The raw and clean data folders are organized in subfolders, one for each speech source and speaker. The raw data contain the text of the speeches after the initial cleaning (*rawtext\_\{speaker name\}*) and potentially a list of identifiers for speeches that were removed as non-compliant with the dataset criteria (*drop\_speech\_id.tsv*). In the case of C-SPAN, where significant manual curation was needed, the results of the website search are included (*cspan\_\{speaker name\}.csv*) as well as intermediate files (*rawtext\_droptitles\_\{speaker name\}*, *rawtext\_droptitles\_\{speaker name\}\_edit2*, automatically created following the accompanying curation code, *rawtext\_droptitles\_\{speaker name\}\_edit1*, manually created and used by the accompanying curation code), as well as a folder (*specialcleanneeded*) with the transcripts of some particularly long speeches stored individually. The latter was required only for the data curation; these speeches are integrated in the curated dataset folder (*data\_clean*).
+The raw and clean data folders are organized in subfolders, one for each speech source and speaker. The raw data contain the text of the speeches after the initial cleaning (*rawtext\_\{speaker name\}*) and potentially a list of identifiers for speeches that were removed as non-compliant with the dataset criteria (*drop\_speech\_id.tsv*). In the case of C-SPAN, where significant manual curation was needed, the results of the website search are included (*cspan\_\{speaker name\}.csv*) as well as intermediate files (*rawtext\_droptitles\_\{speaker name\}*, *rawtext\_droptitles\_\{speaker name\}\_edit2*, automatically created following the accompanying curation code, *rawtext\_droptitles\_\{speaker name\}\_edit1*, manually created and used by the accompanying curation code), as well as a folder (*specialcleanneeded*) with the transcripts of some particularly long speeches stored individually. The latter was required only for the data curation; these speeches are integrated into the curated dataset folder (*data*).
 
 
 The data collection and curation code is included in the *webcollect/* and *src/* folders of the GitHub repository, while supporting topic dictionaries are provided in the folder *lexica/*.
@@ -47,7 +47,7 @@ The *src* folder contains the scripts for the data curation. In particular:
 
     1. quotes.py: auxiliary script containing the Unicode code points for quotation marks. The script is used to ensure that all quotes have a uniform Unicode representation to facilitate their processing.
     2. utils.py: contains all pre-processing code, namely the designed regular expressions, functions that operate on the raw text and pre-process it, as well as wrapper cleaning functions that consider the specificities of each source, apply the corresponding pre-processing steps and store the cleaned data.
-    3. datacurate_\{speaker surname$\}.py: one curation script per candidate, calling the cleaning function that corresponds to each source.
+    3. datacurate_{speaker surname}.py: one curation script per candidate, calling the cleaning function that corresponds to each source.
 
 The *lexica* folder contains supporting word dictionaries, extracted from the Oxford Dictionaries series for further processing of the text data when needed.
 
@@ -71,15 +71,15 @@ The code for the Structural Topic Model case study is provided in the folder *st
 
 Text:
 
-Chalkiadakis, I., d’ Auriac Louise Anglés, Peters, G. W. & Frau-Meigs, D. A text dataset of campaign speeches of the main tickets in the 2020 us presidential election. Figshare https://10.6084/m9.figshare.26862064 (2024).
+Chalkiadakis, I., Anglès d’ Auriac, L., Peters, G. W. & Frau-Meigs, D. A text dataset of campaign speeches of the main tickets in the 2020 us presidential election. Figshare https://doi.org/10.6084/m9.figshare.26862064.v1 (2024).
 
 
 Bibtex:
 
 @misc{chalkiadakisdauriac2024,
-  author = {Chalkiadakis, I. and d' Auriac Louise Angl\'es, and Peters, Gareth W., and Frau-Meigs, Divina},
+  author = {Chalkiadakis, I. and Angl\`es d' Auriac, Louise and Peters, Gareth W., and Frau-Meigs, Divina},
   year = {2024},
   title = {A text dataset of campaign speeches of the main tickets in the 2020 US presidential election},
-  howpublished = {\emph{figshare} \url{https://10.6084/m9.figshare.26862064}}
+  howpublished = {\emph{figshare} \url{https://doi.org/10.6084/m9.figshare.26862064.v1}}
 }
 
