@@ -213,7 +213,7 @@ if __name__ == "__main__":
             if potus_all_sents is None:
                 potus_all_sents = all_sentspeechdf
             else:
-                potus_all_sents = pd.concat([potus_all_sents, all_sentspeechdf], ignore_index=True)                                
+                potus_all_sents = pd.concat([potus_all_sents, all_sentspeechdf], ignore_index=True)             
             potus_sents += len(all_sentdf)
             potus_tokens += all_sentspeechdf["SentenceEnd"].values.tolist()[-1]
             potus_tokens_raw += len(row.RawText.split())
@@ -236,7 +236,8 @@ if __name__ == "__main__":
                 fig.add_trace(go.Bar(x=["{}<br>{}".format(potus, potuses_terms[potus]["term"][0])], y=[potus_speeches], marker_color='blue', showlegend=False))                
             else:
                 fig.add_trace(go.Bar(x=["{}<br>{}".format(potus, potuses_terms[potus]["term"][0])], y=[potus_speeches], marker_color='red', showlegend=False))
-                
+
+        potus_all_sents = potus_all_sents.sort_values(["Date"], ascending=True).reset_index(drop=True)                
         Path("{}/{}".format(outputdirectory, potus.replace(" ", ""))).mkdir(parents=True, exist_ok=True)
         potus_all_sents.to_csv("{}/{}/cleandataset_sentences.tsv".format(outputdirectory, potus.replace(" ", "")), index=False, sep="\t")
     

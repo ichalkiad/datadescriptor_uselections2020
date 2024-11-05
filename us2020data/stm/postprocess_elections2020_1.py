@@ -67,6 +67,7 @@ if __name__ == "__main__":
         dataset["POTUS"].append(potus)
         dataset["Party"].append(potuses_terms[potus]["party"])
         df_potus = pd.read_csv("{}/{}/cleandataset_sentences.tsv".format(DIR_in, potus.replace(" ", "")), sep="\t")
+        assert(np.all(df_potus.Date==sorted(df_potus.Date)))
         df_potus = df_potus[df_potus.Labels=="speaker"].reset_index(drop=True)
         
         print(potus)        
@@ -101,8 +102,10 @@ if __name__ == "__main__":
             
             potus_postprocessedtokens += group["PostprocessedTokens"].apply(len).sum()
         pathlib.Path("{}/{}/".format(outputdirectory, potus.replace(" ", ""))).mkdir(parents=True, exist_ok=True)        
+        potus_postprocessed = potus_postprocessed.sort_values(["Date"], ascending=True).reset_index(drop=True)
         potus_postprocessed.to_csv("{}/{}/postprocesseddataset_stem_{}.tsv".format(outputdirectory, potus.replace(" ", ""), kwargs_cfg["stemming"]), index=False, sep="\t")
         potus_postprocessed_perspeech_df = pd.DataFrame.from_dict(postprocessed_data_per_speech)
+        potus_postprocessed_perspeech_df = potus_postprocessed_perspeech_df.sort_values(["Date"], ascending=True).reset_index(drop=True)
 
         # deduplication over all data per speaker - 95% overlap in content
         potus_postprocessed_perspeech_df_dup = np.zeros((len(potus_postprocessed_perspeech_df),))
@@ -123,6 +126,7 @@ if __name__ == "__main__":
                     continue
         # after removing duplicate speeches
         potus_postprocessed_perspeech_df = potus_postprocessed_perspeech_df[potus_postprocessed_perspeech_df_dup < 1]
+        potus_postprocessed_perspeech_df = potus_postprocessed_perspeech_df.sort_values(["Date"], ascending=True).reset_index(drop=True)
         potus_postprocessed_perspeech_df.to_csv("{}/{}/postprocesseddataset_perspeech_stem_{}.tsv".format(outputdirectory, potus.replace(" ", ""), kwargs_cfg["stemming"]), index=False, sep="\t")
 
         dataset_descr_per_source(potus_postprocessed_perspeech_df, potus.replace(" ", ""))
