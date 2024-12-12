@@ -83,3 +83,4 @@ Bibtex:
   howpublished = {\emph{figshare} \url{https://doi.org/10.6084/m9.figshare.26862064.v1}}
 }
 
+Note that the dataset is released under CC BY-NC license and the code of the present repository under MIT License. 
