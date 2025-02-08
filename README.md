@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14785782.svg)](https://doi.org/10.5281/zenodo.14785782) [![Python 3.8+](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
 
-Unstructured text data have gained popularity in political science, owing to advancements in rigorous *text-as-data* methods that allow extracting insights into election outcomes, candidates' appeal to voters, ideologies and campaign strategies. Existing datasets on US presidential elections campaign speeches are limited in size or source variation, and often contain speeches of different types (debates, rallies, official presidential events, e.g. inauguration, press interviews), thus lacking consistency in their rhetorical content. The introduced dataset comprises the campaign speeches of the Democratic and Republican tickets for the 2020 US presidential election ($1,056$ in total), covering the period between January 2019 and January 2021. Importantly, the dataset dictates specific criteria for the speech rhetorical structure ensuring consistency, critical for quantitative analysis. It has been carefully curated, yet only to the necessary extent as to still be able to inform studies that require semantic or grammatical/syntactical structure. The provided corpus is also hosted on [Figshare](https://10.0.23.196/m9.figshare.26862064) and it aims to enhance timely studies on US presidential elections with high-quality text data.
+Unstructured text data have gained popularity in political science, owing to advancements in rigorous *text-as-data* methods that allow extracting insights into election outcomes, candidates' appeal to voters, ideologies and campaign strategies. Existing datasets on US presidential elections campaign speeches are limited in size or source variation, and often contain speeches of different types (debates, rallies, official presidential events, e.g. inauguration, press interviews), thus lacking consistency in their rhetorical content. The introduced dataset comprises the campaign speeches of the Democratic and Republican tickets for the 2020 US presidential election ($1,056$ in total), covering the period between January 2019 and January 2021. Importantly, the dataset dictates specific criteria for the speech rhetorical structure ensuring consistency, critical for quantitative analysis. It has been carefully curated, yet only to the necessary extent as to still be able to inform studies that require semantic or grammatical/syntactical structure. The provided corpus is also hosted on [Zenodo](https://doi.org/10.5281/zenodo.14785782) and it aims to enhance timely studies on US presidential elections with high-quality text data.
 
 
 
@@ -69,16 +69,24 @@ The code for the Structural Topic Model case study is provided in the folder *st
 
 Text:
 
-Chalkiadakis, I., Anglès d’ Auriac, L., Peters, G. W. & Frau-Meigs, D. A text dataset of campaign speeches of the main tickets in the 2020 us presidential election. Figshare https://doi.org/10.6084/m9.figshare.26862064.v1 (2024).
+Chalkiadakis, I., Anglès d'Auriac, L., Peters, G., & Frau-Meigs, D. (2025). A text dataset of campaign speeches of the main tickets in the 2020 US presidential election [Data set]. Zenodo. https://doi.org/10.5281/zenodo.14785782.
 
 
 Bibtex:
 
-@misc{chalkiadakisdauriac2024,
-  author = {Chalkiadakis, I. and Angl\`es d' Auriac, Louise and Peters, Gareth W., and Frau-Meigs, Divina},
-  year = {2024},
-  title = {A text dataset of campaign speeches of the main tickets in the 2020 US presidential election},
-  howpublished = {\emph{figshare} \url{https://doi.org/10.6084/m9.figshare.26862064.v1}}
-}
+@dataset{chalkiadakis_2025_14785782,
+  author       = {Chalkiadakis, Ioannis and
+                  Anglès d'Auriac, Louise and
+                  Peters, Gareth and
+                  Frau-Meigs, Divina},
+  title        = {A text dataset of campaign speeches of the main
+                   tickets in the 2020 US presidential election
+                  },
+  month        = feb,
+  year         = 2025,
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.14785782},
+  url          = {https://doi.org/10.5281/zenodo.14785782},
+}.
 
-Note that the dataset is released under CC BY-NC license and the code of the present repository under MIT License. 
+Note that the dataset is released under CC-BY NC 4.0 license and the code of the present repository under MIT License. 
