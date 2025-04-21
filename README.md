@@ -89,4 +89,8 @@ Bibtex:
   url          = {https://doi.org/10.5281/zenodo.14785782},
 }.
 
+Data descriptor manuscript:
+
+Chalkiadakis, I., Anglès d’Auriac, L., Peters, G.W., & Frau-Meigs, D. A text dataset of campaign speeches of the main tickets in the 2020 US presidential election. Sci Data 12, 662 (2025). https://doi.org/10.1038/s41597-025-04681-x
+
 Note that the dataset is released under CC-BY NC 4.0 license and the code of the present repository under MIT License. 
